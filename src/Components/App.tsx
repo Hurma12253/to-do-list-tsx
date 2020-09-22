@@ -44,12 +44,10 @@ function App() {
 
   const removeTodo = (id: number) => {
     setTodos(prev => prev.filter(todo => todo.id !== id))
-    localStorage.setItem('todos',JSON.stringify(todos))
   }
 
   const setAchieved = (id: number) => {
     setTodos(prev => prev.map(todo=>todo.id===id?{...todo,achieved:!todo.achieved}:todo))
-    localStorage.setItem('todos',JSON.stringify(todos))
   }
 
   const onKeyPress = (event: React.KeyboardEvent) => {
