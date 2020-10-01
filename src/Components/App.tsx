@@ -1,30 +1,42 @@
 import React, {useState, useRef, useEffect} from 'react';
 import Header from './Header'
-import './App.scss';
 import Container from '@material-ui/core/Container'
 import TextField from '@material-ui/core/TextField'
-import {makeStyles} from '@material-ui/core'
+import {makeStyles} from '@material-ui/core/styles'
 import {ITodo} from './Interfaces'
 import Todolist from './Todolist';
 
-const useStyles = makeStyles(theme =>({
-  root:{
-    display:'flex',
-    flexDirection:'column',
-  },
-  content:{
-    paddingTop:'20px'
-  },
-  textfield:{
-    '&>*':{
-      fontSize:'26px'
-    },
-    marginBottom:'30px'
-  }
-}))
+interface IAppProps{
+  setTheme?: (theme: string)=>void
+}
 
-function App() {
+const App: React.FC<IAppProps> = (props)=> {
+  
+  const useStyles = makeStyles(theme =>({
+    container:{
+      backgroundColor: theme.palette.background.default,
+      height: '100vh'
+    },
+    root:{
+      display:'flex',
+      flexDirection:'column',
+    },
+    content:{
+      paddingTop:'20px'
+    },
+    textfield:{
+      '&>*':{
+        fontSize:'26px',
+        color: theme.palette.primary.contrastText,
+      },
+      '&>.Mui-focused':{
+        color: theme.palette.primary.contrastText,
+      },
+      marginBottom:'30px'
+    }
+  }))
   const styles = useStyles()
+  
 
   const ref = useRef<HTMLInputElement>()
 
@@ -64,10 +76,8 @@ function App() {
   },[todos])
 
   return (
-    <>
-      <Container disableGutters maxWidth='xl' className={styles.root}>
-        <Header/>
-      </Container>
+    <Container maxWidth='xl' disableGutters className={styles.container}>
+      <Header setTheme={props.setTheme||function(){}}/>
       <Container className={styles.content}>
         <TextField
         inputRef={ref} 
@@ -82,7 +92,7 @@ function App() {
         setAchieved={setAchieved}
         />
       </Container>
-    </>
+    </Container>
   );
 }
 
